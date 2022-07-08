@@ -39,23 +39,14 @@ def collect_logs():
     for row in log_rows:
         id_ = row[0]
 
-        # log = '{id}, {lvl}, {name}, {dtime}, {line}, {msg}'.format(
-        #     id=id_,
-        #     lvl=row[1],
-        #     name=row[2],
-        #     dtime=row[3],
-        #     line=row[4],
-        #     msg=row[5],
-        # )
-
         log = {
-            'id': id_,
-            'lvl': row[1],
-            'name': row[2],
-            'time': row[3],
-            'line': row[4],
-            'msg': row[5],
-            'exec': row[6]
+            'log_id': id_,
+            'log_level': row[1],
+            'logger_name': row[2],
+            'log_time': row[3],
+            'log_line': row[4],
+            'log_msg': row[5],
+            'log_exec_text': row[6]
         }
 
         logs.append(log)
