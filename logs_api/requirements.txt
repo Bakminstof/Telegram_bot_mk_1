@@ -1,0 +1,3 @@
+SQLAlchemy==1.4.39
+databases[sqlite]==0.6.0
+flask==2.1.2
