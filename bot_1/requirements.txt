@@ -1,0 +1,5 @@
+aiogram==2.21
+environs==9.5.0
+SQLAlchemy==1.4.39
+databases[sqlite]==0.6.0
+sentry_sdk==1.6.0

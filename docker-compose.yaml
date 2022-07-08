@@ -1,0 +1,49 @@
+version: '3.1'
+
+services:
+  bot:
+    container_name: telegram_bot
+    build:
+      context: bot_1
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./bot_1/databases/main_db/:/bot/main_db/db/
+      - ./bot_1/databases/logs_db/:/bot/utils/misc/logs/db/
+    ports:
+      - "3333:3333"
+    networks:
+      - botnet
+
+  api:
+    container_name: logs_api
+    build:
+      context: logs_api
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3003:3003"
+    volumes:
+      - ./bot_1/databases/logs_db/:/api/db/
+    networks:
+      - botnet
+    depends_on:
+      - bot
+
+  nginx_proxy:
+    container_name: nginx_proxy
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "443:443"
+    networks:
+      - botnet
+
+volumes:
+  db_volume:
+
+networks:
+  botnet:
+    driver: bridge
