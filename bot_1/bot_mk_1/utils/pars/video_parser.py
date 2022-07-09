@@ -309,8 +309,12 @@ class ChanelRefactorProcess(Process):
         new_videos = []
 
         for video in self.all_videos:
-            if video != self.last_video:
+            if self.last_video not in self.all_videos:
+                break
+
+            elif video != self.last_video:
                 new_videos.append(video)
+
             else:
                 break
 
