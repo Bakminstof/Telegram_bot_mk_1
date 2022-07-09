@@ -28,7 +28,7 @@ class BaseLoggerTable(Base):
     dtime = Column(DATETIME, nullable=False)
     line = Column(SMALLINT(unsigned=True), nullable=False)
     message = Column(VARCHAR, nullable=False)
-    exec_text = Column(VARCHAR, default=None)
+    except_text = Column(VARCHAR, default=None)
 
     def __repr__(self) -> str:
         return '(id: {id}, ' \
@@ -37,12 +37,12 @@ class BaseLoggerTable(Base):
                'dtime: {dtime}, ' \
                'line: {line}, ' \
                'message: {message}, ' \
-               'exec_text: {exec_text})'.format(
+               'except_text: {except_text})'.format(
             id=self.id,
             level=self.level,
             name=self.name,
             dtime=self.dtime,
             line=self.line,
             message=self.message,
-            exex_text=self.exec_text
+            except_text=self.except_text
         )

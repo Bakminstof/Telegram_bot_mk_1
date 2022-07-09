@@ -66,7 +66,7 @@ class LogsDBHandler(logging.Handler):
             ),
             line=log.lineno,
             message=log.message,
-            exec_text=log.exc_text
+            except_text=log.exc_text
         )
 
         LOG_CACHE.append(log)
