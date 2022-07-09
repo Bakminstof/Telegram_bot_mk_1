@@ -143,7 +143,7 @@ class VideoParser:
                 self.channels.clear()
                 self.updates.clear()
 
-            time_ = random.randint(393, 939)  # sec
+            time_ = random.randint(3000, 5000)  # sec
             channel_logger.info(f'Go sleep {time_} sec.')
             await asyncio.sleep(time_)  # sleep
 
