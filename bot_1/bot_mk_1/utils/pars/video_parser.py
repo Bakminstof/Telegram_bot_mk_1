@@ -143,7 +143,7 @@ class VideoParser:
                 self.channels.clear()
                 self.updates.clear()
 
-            time_ = random.randint(3939, 9393)  # sec
+            time_ = random.randint(393, 939)  # sec
             channel_logger.info(f'Go sleep {time_} sec.')
             await asyncio.sleep(time_)  # sleep
 
@@ -261,7 +261,7 @@ class HTMLThread(Thread):
         else:
             try_ = 'last try'
 
-            channel_logger.critical(
+            channel_logger.warning(
                 f'{self.logger_base_msg.format(name=self.name, id_=self.id_, try_=try_)} => critical'
                 f'\nCant get html page:'
                 f'\n\turl="{self.url}"'
