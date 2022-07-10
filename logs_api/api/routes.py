@@ -24,7 +24,7 @@ def collect_logs():
         BaseLoggerTable.dtime,
         BaseLoggerTable.line,
         BaseLoggerTable.message,
-        BaseLoggerTable.exec_text
+        BaseLoggerTable.except_text
     )
 
     if first:
@@ -46,7 +46,7 @@ def collect_logs():
             'log_time': row[3],
             'log_line': row[4],
             'log_msg': row[5],
-            'log_exec_text': row[6]
+            'log_except_text': row[6]
         }
 
         logs.append(log)

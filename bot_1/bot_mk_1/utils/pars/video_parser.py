@@ -310,6 +310,7 @@ class ChanelRefactorProcess(Process):
 
         for video in self.all_videos:
             if self.last_video not in self.all_videos:
+                self.channels[self.id_channel]['last_video'] = self.all_videos[0]
                 break
 
             elif video != self.last_video:
