@@ -89,7 +89,7 @@ class VideoParser:
         parts_keys = []
 
         manager = Manager()
-        dict_manager = self.updates = manager.dict()
+        updates_manager = self.updates = manager.dict()
 
         if len(channels_keys) <= 30:
             parts_keys.append(channels_keys)
@@ -106,7 +106,7 @@ class VideoParser:
                         id_channel=id_channel,
                         channels=self.channels,
                         updates=self.updates,
-                        args=(dict_manager,)
+                        args=(updates_manager, )
                     )
                 ]
                 workers = []
@@ -135,7 +135,6 @@ class VideoParser:
                 self.__refactor_channels()
 
                 if self.updates:
-
                     await self.__update_db()
                     await self.__send_new_videos()
 
@@ -192,7 +191,7 @@ class VideoParser:
                 )
             )
             for channel in self.updates.values()
-            if notif.get(channel.get('user_id'))
+            if notif.get(channel.get('user_id')) and channel.get('new_videos', False)
         ]
 
         await asyncio.gather(*to_send)
@@ -278,14 +277,14 @@ class ChanelRefactorProcess(Process):
     ):
         super().__init__(args=args)
         # global
-        self.channels = channels
-        self.updates = updates
+        self.updates: dict = updates
         # current
-        self.id_channel = id_channel
-        self.url: str = self.channels.get(self.id_channel).get('location')
-        self.html_page: str = self.channels.get(self.id_channel).get('html_page')
-        self.last_video: str = self.channels.get(self.id_channel).get('last_video')
-        self.custom_name: str = self.channels.get(self.id_channel).get('custom_name')
+        self.id_channel: int = id_channel
+        self.current_channel: dict = channels.get(id_channel)
+        self.url: str = channels.get(self.id_channel).get('location')
+        self.html_page: str = channels.get(self.id_channel).get('html_page')
+        self.last_video: str = channels.get(self.id_channel).get('last_video')
+        self.custom_name: str = channels.get(self.id_channel).get('custom_name')
         self.all_videos = []
 
     def run(self) -> None:
@@ -310,7 +309,8 @@ class ChanelRefactorProcess(Process):
 
         for video in self.all_videos:
             if self.last_video not in self.all_videos:
-                self.channels[self.id_channel]['last_video'] = self.all_videos[0]
+                self.updates[self.id_channel] = self.current_channel
+                self.updates[self.id_channel]['last_video'] = self.all_videos[0]
                 break
 
             elif video != self.last_video:
@@ -327,8 +327,7 @@ class ChanelRefactorProcess(Process):
                     v=', '.join(new_videos)
                 )
             )
-            self.channels[self.id_channel]['new_videos'] = new_videos
-            self.channels[self.id_channel]['last_video'] = new_videos[0]
 
-            channel = self.channels.get(self.id_channel)
-            self.updates[self.id_channel] = channel
+            self.updates[self.id_channel] = self.current_channel
+            self.updates[self.id_channel]['new_videos'] = new_videos
+            self.updates[self.id_channel]['last_video'] = new_videos[0]
