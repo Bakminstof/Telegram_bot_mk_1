@@ -41,9 +41,6 @@ async def on_startup(dispatcher):
 
 
 if __name__ == '__main__':
-    # todo:
-    #  переименовать клавиатуры и колбэки
-
     # dev
     # executor.start_polling(
     #     dispatcher=dp,

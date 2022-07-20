@@ -51,6 +51,7 @@ class ConsoleHandler(logging.Handler):
 
 class LogsDBHandler(logging.Handler):
     def emit(self, log: logging.LogRecord) -> None:
+        self.format(log)
         date, time = log.asctime.split()
 
         log = BaseLoggerTable(
